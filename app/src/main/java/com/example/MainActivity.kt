@@ -7,11 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.ui.components.QRScannerOverlay
 import com.example.ui.screens.ActiveCallScreen
 import com.example.ui.screens.AuthScreen
 import com.example.ui.screens.ChatScreen
@@ -78,6 +82,8 @@ fun LeeTalkApp(viewModel: LeeTalkViewModel) {
     val readReceipts by viewModel.readReceiptsEnabled.collectAsStateWithLifecycle()
     val typingIndicators by viewModel.typingIndicatorsEnabled.collectAsStateWithLifecycle()
     val notifications by viewModel.notificationsEnabled.collectAsStateWithLifecycle()
+    val showQRScanner by viewModel.showQRScanner.collectAsStateWithLifecycle()
+    val pairedSuccessEvent by viewModel.pairedSuccessEvent.collectAsStateWithLifecycle()
 
     if (currentUser == null) {
         AuthScreen(
@@ -206,6 +212,7 @@ fun LeeTalkApp(viewModel: LeeTalkViewModel) {
                     onToggleReadReceipts = { viewModel.toggleReadReceipts() },
                     onToggleTypingIndicators = { viewModel.toggleTypingIndicators() },
                     onToggleNotifications = { viewModel.toggleNotifications() },
+                    onOpenQRScanner = { viewModel.setShowQRScanner(true) },
                     onRevokeSession = { id -> viewModel.revokeSession(id) },
                     onUpdateProfile = { name, username, bio, status ->
                         viewModel.updateProfile(name, username, bio, status)
@@ -214,6 +221,35 @@ fun LeeTalkApp(viewModel: LeeTalkViewModel) {
                     onDeleteAccount = { viewModel.deleteAccount() }
                 )
             }
+        }
+
+        // QR Code Scanner Overlay for pairing desktop/web
+        if (showQRScanner) {
+            QRScannerOverlay(
+                onDismiss = { viewModel.setShowQRScanner(false) },
+                onDevicePaired = { deviceName, browser, location ->
+                    viewModel.linkNewDeviceSession(deviceName, browser, location)
+                }
+            )
+        }
+
+        // Pairing Success confirmation dialog
+        if (pairedSuccessEvent != null) {
+            AlertDialog(
+                onDismissRequest = { viewModel.clearPairedSuccessEvent() },
+                title = { Text("Device Linked Successfully", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold) },
+                text = {
+                    Text(pairedSuccessEvent ?: "Your LeeTalk desktop client is now connected and synced.")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = { viewModel.clearPairedSuccessEvent() },
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = com.example.ui.theme.LeeBlue)
+                    ) {
+                        Text("Done")
+                    }
+                }
+            )
         }
     }
 }

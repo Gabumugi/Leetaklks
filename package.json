@@ -1,0 +1,16 @@
+{
+  "name": "leetalk",
+  "version": "1.0.0",
+  "description": "LeeTalk - Talk. Share. Connect. Android and Desktop Application",
+  "main": "desktop/main.js",
+  "scripts": {
+    "start": "cd desktop && npm start",
+    "build:win": "cd desktop && npm run build:win",
+    "build:portable": "cd desktop && npm run build:portable",
+    "dist": "cd desktop && npm run dist",
+    "postinstall": "cd desktop && npm install"
+  },
+  "keywords": ["leetalk", "chat", "messaging", "pwa", "android", "electron"],
+  "author": "Gabriel Mugi",
+  "license": "MIT"
+}

@@ -10,8 +10,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    minWidth: 420,
-    minHeight: 600,
+    minWidth: 500,
+    minHeight: 650,
     title: 'LeeTalk - Talk. Share. Connect.',
     backgroundColor: '#0F172A',
     icon: path.join(__dirname, 'icon.png'),
@@ -23,11 +23,55 @@ function createWindow() {
     }
   });
 
-  // Load the web app
-  mainWindow.loadURL(APP_URL).catch(() => {
-    // If offline or network error, load local fallback
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  });
+  // Load the QR Code desktop pairing portal
+  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+
+  // Custom application menu
+  const menuTemplate = [
+    {
+      label: 'LeeTalk',
+      submenu: [
+        {
+          label: 'Pair Phone with QR Code',
+          accelerator: 'CmdOrCtrl+P',
+          click: () => mainWindow.loadFile(path.join(__dirname, 'index.html'))
+        },
+        {
+          label: 'Open Web Messenger',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => mainWindow.loadURL(APP_URL)
+        },
+        { type: 'separator' },
+        { role: 'quit' }
+      ]
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' }
+      ]
+    },
+    {
+      label: 'Help',
+      submenu: [
+        {
+          label: 'LeeTalk Help & Support',
+          click: () => shell.openExternal('https://ais-pre-ufle4jgtwld3fwpqtk2vwz-503195482414.europe-west2.run.app')
+        }
+      ]
+    }
+  ];
+
+  const menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 
   // Handle open external links in browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {

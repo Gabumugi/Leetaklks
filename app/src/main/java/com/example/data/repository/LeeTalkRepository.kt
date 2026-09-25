@@ -355,6 +355,19 @@ class LeeTalkRepository(
         _deviceSessions.value = _deviceSessions.value.filter { it.id != sessionId }
     }
 
+    fun addDeviceSession(deviceName: String, browser: String, location: String): DeviceSession {
+        val newSession = DeviceSession(
+            id = "sess-${UUID.randomUUID().toString().take(8)}",
+            deviceName = deviceName,
+            browser = browser,
+            location = location,
+            lastActive = "Active now",
+            isCurrent = false
+        )
+        _deviceSessions.value = _deviceSessions.value + newSession
+        return newSession
+    }
+
     // Passwordless authentication simulation
     suspend fun loginWithMagicLink(email: String, displayName: String, username: String): User {
         val cleanUsername = if (username.startsWith("@")) username else "@$username"

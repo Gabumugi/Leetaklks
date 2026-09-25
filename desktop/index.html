@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeeTalk Desktop</title>
+  <title>LeeTalk Desktop - Talk. Share. Connect.</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,88 +12,608 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
     body {
-      background: #0F172A;
+      background: #0B1120;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      text-align: center;
       padding: 24px;
     }
-    .logo-container {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: rgba(37, 99, 235, 0.2);
+    .header-bar {
+      position: absolute;
+      top: 24px;
+      left: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 44px;
-      margin-bottom: 24px;
-      border: 2px solid #2563EB;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
     }
-    h1 {
-      font-size: 32px;
+    .header-title {
+      font-size: 20px;
       font-weight: 800;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.3px;
+    }
+    .header-pwa-badge {
+      background: rgba(37, 99, 235, 0.2);
+      color: #60A5FA;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+    .card-container {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 880px;
+      display: flex;
+      flex-direction: row;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .card-container {
+        flex-direction: column;
+      }
+      .header-bar {
+        position: static;
+        margin-bottom: 24px;
+      }
+    }
+    .instructions-side {
+      flex: 1.2;
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .instructions-side h2 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #F8FAFC;
       margin-bottom: 8px;
     }
-    p.tagline {
+    .tagline-sub {
       color: #60A5FA;
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-    p.desc {
-      color: #94A3B8;
       font-size: 14px;
-      max-width: 400px;
-      line-height: 1.5;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
       margin-bottom: 32px;
     }
-    .btn {
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #2563EB;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-text {
+      font-size: 14px;
+      color: #CBD5E1;
+      line-height: 1.45;
+    }
+    .step-text strong {
+      color: #FFFFFF;
+    }
+    .stay-signed-in {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #94A3B8;
+      cursor: pointer;
+    }
+    .stay-signed-in input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #2563EB;
+      cursor: pointer;
+    }
+    .qr-side {
+      flex: 1;
+      background: #0F172A;
+      padding: 44px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid #334155;
+      position: relative;
+    }
+    .qr-frame-wrapper {
+      position: relative;
+      width: 252px;
+      height: 252px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-frame {
+      position: relative;
+      background: #FFFFFF;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: filter 0.3s ease, opacity 0.3s ease;
+    }
+    .qr-svg {
+      width: 220px;
+      height: 220px;
+      display: block;
+    }
+    .qr-center-logo {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #2563EB;
+      border: 3px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Error Overlay State */
+    .qr-error-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(4px);
+      border-radius: 16px;
+      border: 1.5px solid #EF4444;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      z-index: 10;
+      animation: fadeIn 0.25s ease-out;
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.25);
+    }
+    .qr-error-overlay.active {
+      display: flex;
+    }
+    .error-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.15);
+      border: 2px solid #EF4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #EF4444;
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+    .error-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #F8FAFC;
+      margin-bottom: 6px;
+    }
+    .error-msg {
+      font-size: 12px;
+      color: #CBD5E1;
+      line-height: 1.4;
+      margin-bottom: 16px;
+    }
+    .btn-try-again {
       background: #2563EB;
       color: #FFFFFF;
       border: none;
-      padding: 12px 28px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn:hover {
-      background: #1D4ED8;
-    }
-    .status-badge {
-      margin-top: 24px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: #64748B;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+      transition: all 0.2s ease;
     }
-    .status-dot {
-      width: 8px;
-      height: 8px;
+    .btn-try-again:hover {
+      background: #1D4ED8;
+      transform: translateY(-1px);
+    }
+    .btn-try-again:active {
+      transform: translateY(0);
+    }
+
+    .qr-status {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .qr-timer {
+      font-weight: 700;
+      color: #38BDF8;
+    }
+    .actions-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      width: 100%;
+      justify-content: center;
+    }
+    .reload-btn {
+      background: transparent;
+      border: 1px solid #475569;
+      color: #94A3B8;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .reload-btn:hover {
+      border-color: #60A5FA;
+      color: #60A5FA;
+    }
+    .simulate-btn {
+      margin-top: 14px;
+      background: #2563EB;
+      color: #FFFFFF;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+    .simulate-btn:hover {
+      background: #1D4ED8;
+    }
+    .test-fail-btn {
+      background: transparent;
+      border: 1px dashed #64748B;
+      color: #94A3B8;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .test-fail-btn:hover {
+      border-color: #EF4444;
+      color: #F87171;
+    }
+
+    /* Synced Success State */
+    .paired-success-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px;
+      text-align: center;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
-      background: #10B981;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin-bottom: 20px;
+      border: 2px solid #10B981;
+    }
+    .paired-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .paired-desc {
+      color: #94A3B8;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .cloud-btn {
+      background: #2563EB;
+      color: white;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="logo-container">💬</div>
-  <h1>LeeTalk Desktop</h1>
-  <p class="tagline">Talk. Share. Connect.</p>
-  <p class="desc">Connecting to LeeTalk cloud servers... If you are temporarily offline, verify your internet connection and click retry.</p>
-  <button class="btn" onclick="window.location.reload()">Retry Connection</button>
-  <div class="status-badge">
-    <div class="status-dot"></div>
-    <span>LeeTalk Desktop v1.0.0 (Windows x64)</span>
+
+  <!-- Top bar logo -->
+  <div class="header-bar">
+    <div class="header-logo">💬</div>
+    <div class="header-title">LeeTalk Desktop</div>
+    <div class="header-pwa-badge">Windows x64</div>
   </div>
+
+  <!-- Main Pairing Card -->
+  <div class="card-container" id="pairingCard">
+    <div class="instructions-side">
+      <h2>Use LeeTalk on your Computer</h2>
+      <div class="tagline-sub">Talk. Share. Connect. • End-to-End Synced</div>
+
+      <div class="steps-list">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-text">Open <strong>LeeTalk</strong> on your Android phone</div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-text">Tap <strong>Me</strong> tab, then select <strong>Link a Device (QR Scanner)</strong></div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-text">Point your phone camera to this screen to capture the QR code</div>
+        </div>
+      </div>
+
+      <label class="stay-signed-in">
+        <input type="checkbox" checked id="rememberMe">
+        <span>Keep me signed in on this computer</span>
+      </label>
+    </div>
+
+    <div class="qr-side">
+      <div class="qr-frame-wrapper">
+        <div class="qr-frame" id="qrFrame">
+          <!-- Crisp high-resolution SVG QR code -->
+          <svg class="qr-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="white"/>
+            
+            <!-- Top Left Marker -->
+            <rect x="6" y="6" width="26" height="26" rx="4" fill="#0F172A"/>
+            <rect x="11" y="11" width="16" height="16" rx="2" fill="white"/>
+            <rect x="15" y="15" width="8" height="8" rx="1.5" fill="#2563EB"/>
+
+            <!-- Top Right Marker -->
+            <rect x="68" y="6" width="26" height="26" rx="4" fill="#0F172A"/>
+            <rect x="73" y="11" width="16" height="16" rx="2" fill="white"/>
+            <rect x="77" y="15" width="8" height="8" rx="1.5" fill="#2563EB"/>
+
+            <!-- Bottom Left Marker -->
+            <rect x="6" y="68" width="26" height="26" rx="4" fill="#0F172A"/>
+            <rect x="11" y="73" width="16" height="16" rx="2" fill="white"/>
+            <rect x="15" y="77" width="8" height="8" rx="1.5" fill="#2563EB"/>
+
+            <!-- QR Data Matrix Pattern -->
+            <rect x="36" y="6" width="4" height="4" fill="#0F172A"/>
+            <rect x="44" y="6" width="4" height="4" fill="#0F172A"/>
+            <rect x="52" y="6" width="4" height="4" fill="#0F172A"/>
+            <rect x="60" y="6" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="36" y="14" width="4" height="4" fill="#0F172A"/>
+            <rect x="48" y="14" width="4" height="4" fill="#2563EB"/>
+            <rect x="56" y="14" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="36" y="22" width="4" height="4" fill="#0F172A"/>
+            <rect x="44" y="22" width="4" height="4" fill="#0F172A"/>
+            <rect x="60" y="22" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="6" y="36" width="4" height="4" fill="#0F172A"/>
+            <rect x="14" y="36" width="4" height="4" fill="#0F172A"/>
+            <rect x="22" y="36" width="4" height="4" fill="#0F172A"/>
+            <rect x="68" y="36" width="4" height="4" fill="#0F172A"/>
+            <rect x="76" y="36" width="4" height="4" fill="#0F172A"/>
+            <rect x="84" y="36" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="14" y="44" width="4" height="4" fill="#0F172A"/>
+            <rect x="22" y="44" width="4" height="4" fill="#0F172A"/>
+            <rect x="68" y="44" width="4" height="4" fill="#2563EB"/>
+            <rect x="80" y="44" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="6" y="52" width="4" height="4" fill="#0F172A"/>
+            <rect x="18" y="52" width="4" height="4" fill="#0F172A"/>
+            <rect x="74" y="52" width="4" height="4" fill="#0F172A"/>
+            <rect x="88" y="52" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="36" y="68" width="4" height="4" fill="#0F172A"/>
+            <rect x="44" y="68" width="4" height="4" fill="#0F172A"/>
+            <rect x="52" y="68" width="4" height="4" fill="#0F172A"/>
+            <rect x="60" y="68" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="40" y="76" width="4" height="4" fill="#0F172A"/>
+            <rect x="52" y="76" width="4" height="4" fill="#0F172A"/>
+            <rect x="68" y="76" width="4" height="4" fill="#0F172A"/>
+            <rect x="80" y="76" width="4" height="4" fill="#0F172A"/>
+
+            <rect x="36" y="84" width="4" height="4" fill="#0F172A"/>
+            <rect x="44" y="84" width="4" height="4" fill="#0F172A"/>
+            <rect x="60" y="84" width="4" height="4" fill="#0F172A"/>
+            <rect x="76" y="84" width="4" height="4" fill="#0F172A"/>
+            <rect x="84" y="84" width="4" height="4" fill="#0F172A"/>
+          </svg>
+
+          <!-- Center Monogram -->
+          <div class="qr-center-logo">💬</div>
+        </div>
+
+        <!-- ERROR STATE OVERLAY -->
+        <div class="qr-error-overlay" id="qrErrorOverlay">
+          <div class="error-icon-box">⚠️</div>
+          <div class="error-title" id="errorTitle">QR Code Expired</div>
+          <div class="error-msg" id="errorMsg">The pairing session timed out or network connection was lost.</div>
+          <button class="btn-try-again" onclick="handleTryAgain()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>Try Again</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="qr-status" id="qrStatusRow">
+        <span>Code refreshes in <span class="qr-timer" id="timerCount">59s</span></span>
+      </div>
+
+      <div class="actions-row">
+        <button class="reload-btn" onclick="handleTryAgain()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+          <span>Regenerate QR</span>
+        </button>
+      </div>
+
+      <button class="simulate-btn" onclick="attemptPairing(true)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span>Pair with Current Account</span>
+      </button>
+
+      <!-- Testing affordance to test network failure or timeout error state -->
+      <button class="test-fail-btn" onclick="triggerErrorState('Network Timed Out', 'Failed to communicate with pairing server. Network timed out (ERR_TIMED_OUT).')">
+        Simulate Network Timeout / Error
+      </button>
+    </div>
+  </div>
+
+  <!-- Paired View -->
+  <div class="card-container paired-success-view" id="pairedView">
+    <div class="success-icon">✓</div>
+    <div class="paired-title">Linked with Gabriel Mugi (@gabriel)</div>
+    <div class="paired-desc">Your LeeTalk desktop session is authenticated with end-to-end encrypted messaging. All direct chats, groups, and contacts are ready.</div>
+    <a class="cloud-btn" href="https://ais-pre-ufle4jgtwld3fwpqtk2vwz-503195482414.europe-west2.run.app" target="_self">
+      <span>Open LeeTalk Messenger</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <script>
+    let secondsLeft = 59;
+    let timerInterval = null;
+    let isErrorActive = false;
+
+    const timerElem = document.getElementById('timerCount');
+    const qrFrame = document.getElementById('qrFrame');
+    const qrErrorOverlay = document.getElementById('qrErrorOverlay');
+    const errorTitle = document.getElementById('errorTitle');
+    const errorMsg = document.getElementById('errorMsg');
+    const qrStatusRow = document.getElementById('qrStatusRow');
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (isErrorActive) return;
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+          // Timer expired -> Trigger QR code expiration error state
+          triggerErrorState('QR Code Expired', 'The pairing code expired for security. Click Try Again to regenerate a new one.');
+        } else {
+          timerElem.innerText = secondsLeft + 's';
+        }
+      }, 1000);
+    }
+
+    startTimer();
+
+    function triggerErrorState(title, message) {
+      isErrorActive = true;
+      errorTitle.innerText = title || 'Pairing Timed Out';
+      errorMsg.innerText = message || 'Connection could not be established or the request timed out.';
+      qrFrame.style.filter = 'blur(3px) grayscale(80%)';
+      qrFrame.style.opacity = '0.4';
+      qrErrorOverlay.classList.add('active');
+      qrStatusRow.style.visibility = 'hidden';
+    }
+
+    function handleTryAgain() {
+      isErrorActive = false;
+      secondsLeft = 60;
+      timerElem.innerText = '60s';
+      qrErrorOverlay.classList.remove('active');
+      qrFrame.style.filter = 'none';
+      qrFrame.style.opacity = '0.5';
+      qrStatusRow.style.visibility = 'visible';
+
+      setTimeout(() => {
+        qrFrame.style.opacity = '1';
+      }, 250);
+
+      startTimer();
+    }
+
+    function attemptPairing(successExpected) {
+      if (isErrorActive) return;
+      
+      // Simulate connection attempt
+      const btn = document.querySelector('.simulate-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Connecting to phone...';
+      btn.style.opacity = '0.7';
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.opacity = '1';
+
+        if (successExpected) {
+          document.getElementById('pairingCard').style.display = 'none';
+          document.getElementById('pairedView').style.display = 'flex';
+        } else {
+          triggerErrorState('Network Timed Out', 'Could not establish handshaking with the mobile device. Pairing timed out.');
+        }
+      }, 800);
+    }
+  </script>
 </body>
 </html>

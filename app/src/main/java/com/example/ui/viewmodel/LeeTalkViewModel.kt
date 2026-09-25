@@ -127,6 +127,12 @@ class LeeTalkViewModel(application: Application) : AndroidViewModel(application)
     private val _showAddContactDialog = MutableStateFlow(false)
     val showAddContactDialog: StateFlow<Boolean> = _showAddContactDialog.asStateFlow()
 
+    private val _showQRScanner = MutableStateFlow(false)
+    val showQRScanner: StateFlow<Boolean> = _showQRScanner.asStateFlow()
+
+    private val _pairedSuccessEvent = MutableStateFlow<String?>(null)
+    val pairedSuccessEvent: StateFlow<String?> = _pairedSuccessEvent.asStateFlow()
+
     private val _showAttachmentSheet = MutableStateFlow(false)
     val showAttachmentSheet: StateFlow<Boolean> = _showAttachmentSheet.asStateFlow()
 
@@ -400,6 +406,24 @@ class LeeTalkViewModel(application: Application) : AndroidViewModel(application)
     // Sessions
     fun revokeSession(sessionId: String) {
         repository.revokeSession(sessionId)
+    }
+
+    fun setShowQRScanner(show: Boolean) {
+        _showQRScanner.value = show
+    }
+
+    fun clearPairedSuccessEvent() {
+        _pairedSuccessEvent.value = null
+    }
+
+    fun linkNewDeviceSession(
+        deviceName: String = "LeeTalk Desktop — Windows 11",
+        browser: String = "Electron Desktop 33.2 (x64)",
+        location: String = "Current Local Network"
+    ) {
+        val newSession = repository.addDeviceSession(deviceName, browser, location)
+        _showQRScanner.value = false
+        _pairedSuccessEvent.value = "Successfully paired with ${newSession.deviceName}!"
     }
 
     // Settings & Privacy

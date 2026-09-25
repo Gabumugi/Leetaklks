@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PhoneAndroid
+import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.WifiOff
@@ -83,6 +84,7 @@ fun ProfileSettingsScreen(
     onToggleReadReceipts: () -> Unit,
     onToggleTypingIndicators: () -> Unit,
     onToggleNotifications: () -> Unit,
+    onOpenQRScanner: () -> Unit,
     onRevokeSession: (String) -> Unit,
     onUpdateProfile: (name: String, username: String, bio: String, status: String) -> Unit,
     onLogout: () -> Unit,
@@ -213,15 +215,16 @@ fun ProfileSettingsScreen(
             // Storage & Sessions
             SettingsSectionHeader(title = "Storage & Devices")
             SettingsNavigationItem(
-                icon = Icons.Default.Storage,
-                title = "Storage Management",
-                subtitle = "Manage media, cache & offline downloads (1.85 GB)",
-                onClick = { showStorageDialog = true }
+                icon = Icons.Default.QrCodeScanner,
+                title = "Link a Device (QR Scanner)",
+                subtitle = "Scan QR code to pair LeeTalk on Windows PC / Web",
+                titleColor = LeeBlue,
+                onClick = onOpenQRScanner
             )
             SettingsNavigationItem(
                 icon = Icons.Default.Devices,
                 title = "Active Sessions",
-                subtitle = "${deviceSessions.size} devices authenticated via passwordless link",
+                subtitle = "${deviceSessions.size} devices authenticated",
                 onClick = { showSessionsDialog = true }
             )
             SettingsNavigationItem(
@@ -342,12 +345,28 @@ fun ProfileSettingsScreen(
             title = { Text("Active Sessions", fontWeight = FontWeight.Bold) },
             text = {
                 Column(modifier = Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = {
+                            showSessionsDialog = false
+                            onOpenQRScanner()
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = LeeBlue),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Icon(Icons.Default.QrCodeScanner, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Link New Device (QR Scanner)")
+                    }
+
                     Text(
-                        text = "Authenticated devices with active passwordless sessions:",
+                        text = "Authenticated devices with active sessions:",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     deviceSessions.forEach { session ->
                         Row(
                             modifier = Modifier
