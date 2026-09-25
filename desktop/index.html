@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeeTalk Desktop</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background: #0F172A;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 24px;
+    }
+    .logo-container {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      margin-bottom: 24px;
+      border: 2px solid #2563EB;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    p.tagline {
+      color: #60A5FA;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    p.desc {
+      color: #94A3B8;
+      font-size: 14px;
+      max-width: 400px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+    .btn {
+      background: #2563EB;
+      color: #FFFFFF;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover {
+      background: #1D4ED8;
+    }
+    .status-badge {
+      margin-top: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #64748B;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">💬</div>
+  <h1>LeeTalk Desktop</h1>
+  <p class="tagline">Talk. Share. Connect.</p>
+  <p class="desc">Connecting to LeeTalk cloud servers... If you are temporarily offline, verify your internet connection and click retry.</p>
+  <button class="btn" onclick="window.location.reload()">Retry Connection</button>
+  <div class="status-badge">
+    <div class="status-dot"></div>
+    <span>LeeTalk Desktop v1.0.0 (Windows x64)</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+  "name": "leetalk-desktop",
+  "version": "1.0.0",
+  "description": "LeeTalk - Talk. Share. Connect. Desktop App for Windows",
+  "main": "main.js",
+  "author": "Gabriel Mugi",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:portable": "electron-builder --win portable",
+    "dist": "electron-builder -w nsis portable"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.aistudio.leetalk.desktop",
+    "productName": "LeeTalk",
+    "copyright": "Copyright © 2026 LeeTalk",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "LeeTalk",
+      "artifactName": "LeeTalk-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "LeeTalk-${version}-portable.${ext}"
+    }
+  }
+}
