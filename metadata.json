@@ -1,0 +1,7 @@
+{
+  "name": "LeeTalk",
+  "description": "Talk. Share. Connect.Passwordless login, Rich Messaging, & Offline Sync.",
+  "requestFramePermissions": [],
+  "developer":"ENB Fluid Solutions & Kepler Camp Codes From Edwin Mutua Jamenya alias Tyrop Tosh ",
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
